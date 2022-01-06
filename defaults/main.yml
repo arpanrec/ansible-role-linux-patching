@@ -1,0 +1,64 @@
+---
+# defaults file for host_essentials
+
+# If set to `true` Upgrade the existing packages in OS
+# Type: `boolean`
+rv_linux_patching_upgrade_existing_packages: true
+
+# Install the packages in all the distributions
+# Type: `List[String]`
+rv_linux_patching_packages_Debian:
+  - zip
+  - unzip
+  - net-tools
+  - build-essential
+  - tar
+  - wget
+  - curl
+  - ca-certificates
+  - sudo
+  - systemd
+  - telnet
+  - gnupg2
+  - apt-transport-https
+  - lsb-release
+  - software-properties-common
+  - locales
+  - "linux-headers-{{ansible_kernel}}"
+  - network-manager
+  - gnupg2
+  - gnupg
+  - pigz
+  - cron
+
+rv_linux_patching_packages_Archlinux:
+  - base
+  - base-devel
+  - linux
+  - linux-firmware
+  - linux-headers
+  - zip
+  - unzip
+  - pigz
+  - wget
+  - ntfs-3g
+  # Network
+  - dhcpcd
+  - networkmanager
+  - dhclient
+  - ufw
+
+# Set the ZoneTime info in server
+# Type: `String`
+rv_linux_patching_timezone: Asia/Kolkata
+# Cluster / Public IP address
+# Type: `ipaddr`
+#rv_linux_patching_hostipv4:
+
+# Cluster / Public Host name
+# Type: `String`
+#rv_linux_patching_hostname:
+
+# Cluster / Public Domain name
+# Type: `String`
+#rv_linux_patching_hostdomain:

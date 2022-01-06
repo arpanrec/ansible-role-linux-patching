@@ -1,0 +1,25 @@
+---
+- name: Linux Patching | Include Asserts | Checking platform compatibility
+  fail:
+    msg: "{{  ansible_system  }} is not supported by this role"
+  when: ansible_os_family not in [ 'Debian' , 'Archlinux' ]
+
+- name: Linux Patching | Include Asserts | Checking essential variables
+  assert:
+    that:
+      - "{{  item  }} is defined"
+      - "{{  item  }} != None"
+    fail_msg: "{{ item }} is not defined, it should be present"
+    success_msg: "{{ item }} is defined"
+  with_items:
+    - rv_linux_patching_hostname
+    - rv_linux_patching_hostdomain
+  ignore_errors: true
+
+- name: Linux Patching | Include Asserts | Vaild IP address check
+  fail:
+    msg: "{{  rv_linux_patching_hostipv4  }} is not vaild ip address"
+  when:
+    - false
+    - not rv_linux_patching_hostipv4 | ansible.netcommon.ipaddr
+  ignore_errors: true

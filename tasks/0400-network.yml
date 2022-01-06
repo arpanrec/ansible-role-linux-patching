@@ -1,0 +1,76 @@
+---
+- name: Linux Patching | Make sure the folder exists
+  file:
+    path: "{{  rv_linux_patching_ca_certificate_dir  }}"
+    state: directory
+
+- name: Linux Patching | Copy the certificate
+  copy:
+    src: "files/sourceshift_org.pem"
+    dest: "{{  rv_linux_patching_ca_certificate_dir  }}/sourceshift_org.crt"
+  register: rv_linux_patching_copy_crt_tmp_result
+
+- name: Linux Patching | Update CA Trust
+  command: "{{  rv_linux_patching_ca_certificate_update_shell  }}"
+  when: rv_linux_patching_copy_crt_tmp_result.changed
+
+- name: Linux Patching | Set iptables to iptables-legacy in Debian
+  block:
+    - name: Linux Patching | Set iptables to iptables legacy
+      alternatives:
+        name: iptables
+        link: /usr/sbin/iptables
+        path: /usr/sbin/iptables-legacy
+
+    - name: Linux Patching | Set ip6tables to iptables legacy
+      alternatives:
+        name: ip6tables
+        link: /usr/sbin/ip6tables
+        path: /usr/sbin/ip6tables-legacy
+  when: ansible_distribution == 'Debian'
+
+- name: Linux Patching | Setup Host Network Information | Set Host-Name
+  hostname:
+    name: "{{  rv_linux_patching_hostname  }}"
+  register: rv_linux_patching_sethostname_mod_reg
+  ignore_errors: true
+  when:
+    - rv_linux_patching_hostname is defined
+    - rv_linux_patching_hostname != ""
+
+- name: Linux Patching | Setup Host Network Information | Set Host-Name fallback
+  copy:
+    content: "{{  rv_linux_patching_hostname  }}"
+    dest: "/etc/hostname"
+  when:
+    - rv_linux_patching_hostname is defined
+    - rv_linux_patching_sethostname_mod_reg.failed is defined and rv_linux_patching_sethostname_mod_reg.failed
+    - rv_linux_patching_hostname != ""
+
+- name: Linux Patching | Setup Host Network Information | Set loopback and host IP
+  lineinfile:
+    dest: /etc/hosts
+    mode: "0644"
+    line: "{{  item.line  }}"
+    regexp: "{{  item.regexp  | default(omit)  }}"
+    state: present
+    create: yes
+  with_items:
+    - line: "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4"
+      regexp: "^127.0.0.1"
+    #- line: "::1 localhost localhost.localdomain localhost6 localhost6.localdomain6 ip6-localhost ip6-loopback"
+    #  regexp: '^::1'
+    - line: "127.0.1.1 {{  rv_linux_patching_hostname  }} {{  rv_linux_patching_hostname  }}.{{  rv_linux_patching_hostdomain  }}"
+    #- line: "{{  rv_linux_patching_hostipv4  }} {{  rv_linux_patching_hostname  }} {{  rv_linux_patching_hostname  }}.{{  rv_linux_patching_hostdomain  }}"
+  ignore_errors: true
+  when:
+    - rv_linux_patching_hostname is defined
+    - rv_linux_patching_hostdomain is defined
+    - rv_linux_patching_hostname != ""
+    - rv_linux_patching_hostdomain != ""
+
+- name: Linux Patching | Setup Host Network Information | Enable network services
+  service:
+    name: "{{  item  }}"
+    enabled: yes
+  with_items: "{{  rv_linux_patching_net_time_services  }}"

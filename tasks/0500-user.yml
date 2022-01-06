@@ -1,0 +1,22 @@
+---
+- name: Linux Patching | Create home for new users
+  lineinfile:
+    path: /etc/login.defs
+    state: present
+    regexp: "^CREATE_HOME"
+    line: "CREATE_HOME  yes"
+
+- name: Linux Patching | Create mail spool for new users
+  lineinfile:
+    path: /etc/default/useradd
+    state: present
+    regexp: "^CREATE_MAIL_SPOOL"
+    line: "CREATE_MAIL_SPOOL=yes"
+
+- name: Linux Patching | Create wheel and sudo groups
+  group:
+    name: "{{  item  }}"
+    state: present
+  with_items:
+    - wheel
+    - sudo

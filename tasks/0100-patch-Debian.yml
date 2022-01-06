@@ -1,0 +1,17 @@
+---
+- name: Linux Patching | Install Packages | Upgrade existing all packages in Debian
+  apt:
+    name: "*"
+    state: latest
+    update_cache: true
+  register: rv_linux_patching_patch_state
+  when:
+    - rv_linux_patching_upgrade_existing_packages is defined and rv_linux_patching_upgrade_existing_packages != None
+    - rv_linux_patching_upgrade_existing_packages
+
+- name: Linux Patching | Install Packages | Install specific essential packages in Debian
+  apt:
+    name: "{{  rv_linux_patching_packages_Debian  }}"
+    state: present
+    update_cache: true
+  when: rv_linux_patching_packages_Debian is defined

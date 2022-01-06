@@ -1,0 +1,11 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  tasks:
+    - name: "Inlcude mandatory variables"
+      include_vars: ./vars.yml
+    - name: Example assertion
+      assert:
+        that: true

@@ -1,0 +1,61 @@
+---
+- name: Linux Patching | Include Asserts
+  include_tasks: 0000-pre-install-checks.yml
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - always
+
+- name: Linux Patching | Include Asserts
+  include_vars: "{{ ansible_os_family }}.yml"
+  tags:
+    - always
+
+- name: Linux Patching | Install Packages Archlinux
+  include_tasks: "0100-patch-Archlinux.yml"
+  when: ansible_os_family == 'Archlinux'
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - always
+
+- name: Linux Patching | Install Packages Debian
+  include_tasks: "0100-patch-Debian.yml"
+  when: ansible_os_family == 'Debian'
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - always
+
+- name: Linux Patching | Setup Host Date Time
+  include_tasks: 0300-datetime.yml
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - always
+
+- name: Linux Patching | Setup Host Network Information
+  include_tasks: 0400-network.yml
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - always
+
+- name: Linux Patching | Setup admin users
+  include_tasks: 0500-user.yml
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - always
