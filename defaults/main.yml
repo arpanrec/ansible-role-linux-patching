@@ -31,6 +31,8 @@ rv_linux_patching_packages_Debian:
   - pigz
   - cron
   - acl
+  - python3-pip
+  - jq
 
 rv_linux_patching_packages_Archlinux:
   - base
