@@ -30,6 +30,7 @@ rv_linux_patching_packages_Debian:
   - gnupg
   - pigz
   - cron
+  - acl
 
 rv_linux_patching_packages_Archlinux:
   - base
