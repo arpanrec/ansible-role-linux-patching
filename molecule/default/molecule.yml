@@ -2,20 +2,32 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
+  name: delegated
+  options:
+    managed: false
+    ansible_connection_options:
+      ansible_connection: ssh
+      ansible_user: vmuser
+      ansible_password: password
+      ansible_sudo_pass: password
+      ansible_ssh_common_args: -o StrictHostKeyChecking=no
 platforms:
-  - name: debian
-    image: debian:10
-    pre_build_image: false
-    dockerfile: Dockerfile.j2
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+  - name: 172.16.184.138
 provisioner:
   name: ansible
+  playbooks:
+    converge: converge.yml
   inventory:
     group_vars:
       all:
-        ansible_python_interpreter: /usr/bin/python3
+        sadasf: afsaf
+scenario:
+  name: default
+  test_sequence:
+    - converge
+    - side_effect
+    - verify
 verifier:
   name: ansible
+  lint:
+    name: ansible-lint

@@ -2,9 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Inlcude mandatory variables"
-      include_vars: ./vars.yml
-
     - name: "Include linux_patching"
-      include_role:
-        name: "linux_patching"
+      debug:
+        msg: safasjkfhsafhjakshk
