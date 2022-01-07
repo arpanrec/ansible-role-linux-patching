@@ -1,33 +1,40 @@
 ---
 dependency:
   name: galaxy
+  options:
+    ignore-certs: True
+    ignore-errors: True
+    role-file: meta/requirements.yml
 driver:
   name: delegated
   options:
     managed: false
+    # login_cmd_template: "ssh {instance} -F /tmp/ssh-config"
     ansible_connection_options:
-      ansible_connection: ssh
-      ansible_user: vmuser
-      ansible_password: password
-      ansible_sudo_pass: password
       ansible_ssh_common_args: -o StrictHostKeyChecking=no
 platforms:
-  - name: 172.16.184.138
+  - name: vmware
 provisioner:
   name: ansible
+  vvv: true
   playbooks:
     converge: converge.yml
   inventory:
-    group_vars:
-      all:
-        sadasf: afsaf
+    host_vars:
+      vmware:
+        ansible_python_interpreter: /usr/bin/python3
+        ansible_connection: ssh
+        ansible_host: 172.16.184.139
+        ansible_port: 22
+        ansible_password: password
+        ansible_sudo_pass: "{{  ansible_password  }}"
+        ansible_user: vmuser
 scenario:
   name: default
+  converge_sequence:
+    - converge
   test_sequence:
     - converge
-    - side_effect
-    - verify
+  destroy_sequence: []
 verifier:
   name: ansible
-  lint:
-    name: ansible-lint

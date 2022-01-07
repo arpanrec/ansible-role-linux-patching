@@ -1,7 +1,7 @@
 ---
 - name: Converge
   hosts: all
+  become: true
   tasks:
-    - name: "Include linux_patching"
-      debug:
-        msg: safasjkfhsafhjakshk
+    - include_role:
+        name: sourceshift.linux_patching
