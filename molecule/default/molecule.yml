@@ -6,14 +6,17 @@ dependency:
     ignore-errors: True
     role-file: meta/requirements.yml
 driver:
-  name: delegated
-  options:
-    managed: false
-    # login_cmd_template: "ssh {instance} -F /tmp/ssh-config"
-    ansible_connection_options:
-      ansible_ssh_common_args: -o StrictHostKeyChecking=no
+  name: vagrant
+  provider:
+    name: vmware_workstation
 platforms:
-  - name: vmware
+  - name: ubuntu
+    box: sourceshift/ubuntu-20.04-amd64-efi
+    memory: 4096
+    cpus: 4
+    box_version: 1.0.0
+    provider_options:
+      gui: True
 provisioner:
   name: ansible
   vvv: true
@@ -23,18 +26,42 @@ provisioner:
     host_vars:
       vmware:
         ansible_python_interpreter: /usr/bin/python3
-        ansible_connection: ssh
-        ansible_host: 172.16.184.139
-        ansible_port: 22
-        ansible_password: password
-        ansible_sudo_pass: "{{  ansible_password  }}"
-        ansible_user: vmuser
 scenario:
-  name: default
+  create_sequence:
+    - dependency
+    - create
+    - prepare
+  check_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - create
+    - prepare
+    - converge
+    - check
+    - destroy
   converge_sequence:
+    - dependency
+    - create
+    - prepare
     - converge
+  destroy_sequence:
+    - dependency
+    - cleanup
+    - destroy
   test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
     - converge
-  destroy_sequence: []
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
 verifier:
   name: ansible
