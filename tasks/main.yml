@@ -1,15 +1,12 @@
 ---
-- name: Linux Patching | Include Asserts
-  include_tasks: 0000-pre-install-checks.yml
+- name: Linux Patching | Date Time
+  include_tasks: datetime.yml
 
-- name: Linux Patching | Include Asserts
-  include_vars: "{{ ansible_os_family }}.yml"
-
-- name: Linux Patching | Setup Host Date Time
-  include_tasks: 0300-datetime.yml
+- name: Linux Patching | Install packages
+  include_tasks: packages.yml
 
 - name: Linux Patching | Setup Host Network Information
-  include_tasks: 0400-network.yml
+  include_tasks: network.yml
 
 - name: Linux Patching | Setup admin users
-  include_tasks: 0500-user.yml
+  include_tasks: user.yml
