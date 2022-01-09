@@ -1,4 +1,9 @@
 ---
+- name: Linux Patching | Network | Checking Prerequisite
+  block:
+    - name: Linux Patching | Network | Checking Prerequisite | Include Common Checks
+      include_tasks: prerequisite.yml
+
 - name: Linux Patching | Create home for new users
   lineinfile:
     path: /etc/login.defs

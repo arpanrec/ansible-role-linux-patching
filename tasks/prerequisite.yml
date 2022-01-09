@@ -1,0 +1,8 @@
+---
+- name: Linux Patching | Prerequisite | Gather Facts
+  ansible.builtin.setup:
+
+- name: Linux Patching | Prerequisite | Checking platform compatibility
+  fail:
+    msg: "{{  ansible_distribution  }} is not supported by this role"
+  when: ansible_distribution not in [ 'Ubuntu' ]

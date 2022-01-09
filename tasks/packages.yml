@@ -1,0 +1,22 @@
+---
+- name: Linux Patching | Install Packages | Checking Prerequisite
+  block:
+    - name: Linux Patching | Install Packages | Checking Prerequisite | Include Common Checks
+      include_tasks: prerequisite.yml
+
+- name: Linux Patching | Install Packages | Upgrade existing all packages in Ubuntu
+  apt:
+    name: "*"
+    state: latest
+    update_cache: true
+  when:
+    - rv_linux_patching_upgrade_existing_packages
+
+- name: Linux Patching | Install Packages | Install specific essential packages in Ubuntu
+  apt:
+    name: "{{  rv_linux_patching_packages  }}"
+    state: present
+    update_cache: true
+  when:
+    - rv_linux_patching_packages is defined
+    - rv_linux_patching_packages | length > 0

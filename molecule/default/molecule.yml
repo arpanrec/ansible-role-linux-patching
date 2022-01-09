@@ -15,6 +15,9 @@ platforms:
     memory: 4096
     cpus: 4
     box_version: 1.0.0
+    interfaces:
+      - auto_config: true
+        network_name: public_network
     provider_options:
       gui: True
 provisioner:

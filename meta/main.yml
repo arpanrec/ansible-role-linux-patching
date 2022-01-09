@@ -2,3 +2,4 @@ galaxy_info:
   role_name: linux_patching
   author: arpanrec
   namespace: sourceshift
+  license: MIT

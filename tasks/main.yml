@@ -5,14 +5,6 @@
 - name: Linux Patching | Include Asserts
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Linux Patching | Install Packages Archlinux
-  include_tasks: "0100-patch-Archlinux.yml"
-  when: ansible_os_family == 'Archlinux'
-
-- name: Linux Patching | Install Packages Debian
-  include_tasks: "0100-patch-Debian.yml"
-  when: ansible_os_family == 'Debian'
-
 - name: Linux Patching | Setup Host Date Time
   include_tasks: 0300-datetime.yml
 

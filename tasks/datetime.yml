@@ -1,0 +1,15 @@
+---
+- name: Linux Patching | Setup Host Date Time | Checking Prerequisite
+  block:
+    - name: Linux Patching | Setup Host Date Time | Checking Prerequisite | Include Common Checks
+      include_tasks: prerequisite.yml
+
+- name: Linux Patching | Setup Host Date Time | Set timezone as {{  rv_linux_patching_timezone  }}
+  timezone:
+    name: "{{  rv_linux_patching_timezone  }}"
+    hwclock: local
+
+- name: Linux Patching | Setup Host Date Time | Ensure a locale exists as en_US.UTF-8
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
