@@ -11,8 +11,8 @@
 
 - name: Linux Patching | Network | Copy the certificate
   copy:
-    src: "files/sourceshift_org.pem"
-    dest: "{{  rv_linux_patching_ca_certificate_dir  }}/sourceshift_org.crt"
+    src: "files/cert.pem"
+    dest: "{{  rv_linux_patching_ca_certificate_dir  }}/cert.crt"
   register: rv_linux_patching_copy_crt_tmp_result
 
 - name: Linux Patching | Network | Update CA Trust

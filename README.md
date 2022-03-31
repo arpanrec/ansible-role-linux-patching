@@ -1,7 +1,7 @@
 Linux Patching (linux_patching)
 =========
 
-Install all latest packages in Ubuntu based systems. also Install basic utility tools for server.
+Install all latest packages in Debian based systems. also Install basic utility tools for server.
 Set timezone, locale, and loopback ip in server
 
 Role Variables
@@ -35,7 +35,7 @@ Example Playbook
 ```yaml
 - name: Patch linux OS
   include_role:
-    name: sourceshift.linux_patching
+    name: arpanrec.linux_patching
   vars:
     rv_linux_patching_upgrade_existing_packages: true
     rv_linux_patching_hostname_fqdn: s1-dev

@@ -3,6 +3,32 @@
 
 rv_linux_patching_upgrade_existing_packages: true
 
-rv_linux_patching_packages: [ zip, unzip, net-tools, build-essential, tar, wget, curl, ca-certificates, sudo, systemd, telnet, gnupg2, apt-transport-https, lsb-release, software-properties-common, locales, "linux-headers-{{ansible_kernel}}", network-manager, gnupg2, gnupg, pigz, cron, acl, ]
+rv_linux_patching_packages:
+  [
+    zip,
+    unzip,
+    net-tools,
+    build-essential,
+    tar,
+    wget,
+    curl,
+    ca-certificates,
+    sudo,
+    systemd,
+    telnet,
+    gnupg2,
+    apt-transport-https,
+    lsb-release,
+    software-properties-common,
+    locales,
+    "linux-headers-{{ansible_kernel}}",
+    network-manager,
+    gnupg2,
+    gnupg,
+    pigz,
+    cron,
+    acl,
+    ufw,
+  ]
 
 rv_linux_patching_timezone: Asia/Kolkata
