@@ -3,6 +3,8 @@
 
 rv_linux_patching_upgrade_existing_packages: true
 
+rv_linux_patching_install_headers: true
+
 rv_linux_patching_packages:
   [
     zip,
@@ -21,7 +23,6 @@ rv_linux_patching_packages:
     lsb-release,
     software-properties-common,
     locales,
-    "linux-headers-{{ansible_kernel}}",
     network-manager,
     gnupg2,
     gnupg,

@@ -20,3 +20,19 @@
   when:
     - rv_linux_patching_packages is defined
     - rv_linux_patching_packages | length > 0
+
+- name: Linux Patching | Install Packages | Install headers linux-headers-{{ansible_kernel}}
+  apt:
+    name: "linux-headers-{{ansible_kernel}}"
+    state: present
+    update_cache: true
+  when: rv_linux_patching_install_headers
+  ignore_errors: true
+  register: rv_linux_patching_install_headers_tmp_kernel_version_installed
+
+- name: Linux Patching | Install Packages | Install generic headers linux-headers
+  apt:
+    name: "linux-headers"
+    state: present
+    update_cache: true
+  when: rv_linux_patching_install_headers_tmp_kernel_version_installed.failed
