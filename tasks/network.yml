@@ -19,6 +19,7 @@
   with_items:
     - { section: "device", option: "wifi.scan-rand-mac-address", value: "no"  }
     - { section: "device-mac-randomization", option: "wifi.scan-rand-mac-address", value: "no"  }
+    - { section: "ifupdown", option: "managed", value: "true"  }
 
 - name: Linux Patching | Network | Copy the certificate
   copy:
