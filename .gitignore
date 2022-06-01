@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 .vscode
 meta/.galaxy_install_info
+.markdownlint.yaml
+.trunk/out
+.trunk/trunk.yaml
+.yamllint

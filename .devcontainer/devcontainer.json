@@ -1,0 +1,16 @@
+{
+  "name": "Debian",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "bullseye"
+    }
+  },
+  "settings": {},
+  "extensions": [],
+  "postStartCommand": "python3 -m pip install --user --upgrade pip wheel setuptools && python3 -m pip install --user --upgrade -r requirements.txt",
+  "remoteUser": "vscode",
+  "features": {
+    "python": "os-provided"
+  }
+}

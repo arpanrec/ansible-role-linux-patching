@@ -1,0 +1,32 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: True
+    ignore-errors: True
+    role-file: meta/requirements.yml
+driver:
+  name: delegated
+  provider:
+    managed: false
+    ansible_connection_options:
+      ansible_python_interpreter: /usr/bin/python3
+      ansible_connection: ssh
+platforms:
+  - name: debian11
+provisioner:
+  name: ansible
+  vvv: true
+  playbooks:
+    converge: ../common/converge.yml
+  inventory:
+    host_vars:
+      debian11:
+        ansible_host: 192.168.77.143
+        ansible_port: 22
+        ansible_user: vmuser
+        ansible_password: password
+        ansible_become_password: root
+        ansible_become_method: su
+verifier:
+  name: ansible
