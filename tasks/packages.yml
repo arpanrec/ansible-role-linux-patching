@@ -4,6 +4,12 @@
     - name: Linux Patching | Install Packages | Checking Prerequisite | Include Common Checks
       include_tasks: prerequisite.yml
 
+- name: Linux Patching | Install Packages | Purge to resolve conflicts
+  apt:
+    name: ntp
+    state: absent
+    purge: true
+
 - name: Linux Patching | Install Packages | Upgrade existing all packages in Debian
   apt:
     name: "*"
@@ -11,6 +17,11 @@
     update_cache: true
   when:
     - rv_linux_patching_upgrade_existing_packages
+  register: rv_linux_patching_upgrade_result
+
+- name: Linux Patching | Install Packages | Reboot
+  ansible.builtin.reboot:
+  when: rv_linux_patching_upgrade_result.changed
 
 - name: Linux Patching | Install Packages | Install specific essential packages in Debian
   apt:
@@ -20,6 +31,11 @@
   when:
     - rv_linux_patching_packages is defined
     - rv_linux_patching_packages | length > 0
+  register: rv_linux_patching_extra_install
+
+- name: Linux Patching | Install Packages | Reboot
+  ansible.builtin.reboot:
+  when: rv_linux_patching_extra_install.changed
 
 - name: Linux Patching | Install Packages | Install headers linux-headers-{{ansible_kernel}}
   apt:
@@ -36,3 +52,8 @@
     state: present
     update_cache: true
   when: rv_linux_patching_install_headers_tmp_kernel_version_installed.failed
+  register: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed
+
+- name: Linux Patching | Install Packages | Reboot
+  ansible.builtin.reboot:
+  when: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed.changed or rv_linux_patching_install_headers_tmp_kernel_version_installed.changed
