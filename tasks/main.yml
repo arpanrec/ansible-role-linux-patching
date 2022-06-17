@@ -1,9 +1,9 @@
 ---
-- name: Linux Patching | Date Time
-  include_tasks: datetime.yml
-
 - name: Linux Patching | Install packages
   include_tasks: packages.yml
+
+- name: Linux Patching | Date Time
+  include_tasks: datetime.yml
 
 - name: Linux Patching | Setup Host Network Information
   include_tasks: network.yml
