@@ -31,6 +31,9 @@ rv_linux_patching_packages:
     cron,
     acl,
     ufw,
+    vim,
+    python3-pip,
+    git,
   ]
 
 rv_linux_patching_timezone: Asia/Kolkata

@@ -21,14 +21,17 @@ provisioner:
   inventory:
     host_vars:
       debian11:
-        ansible_host: 192.168.77.138
+        ansible_host: 192.168.0.163
         ansible_port: 22
-        ansible_user: vmuser
-        ansible_password: password
-        ansible_become_password: password
+        ansible_user: pi
+        ansible_password: pi
+        ansible_become_password: pi
         ansible_become_method: sudo
         ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+        rv_linux_patching_hostname_fqdn: rb4-m1
 scenario:
+  converge_sequence:
+    - converge
   test_sequence:
     - lint
     - syntax

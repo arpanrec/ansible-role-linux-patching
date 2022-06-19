@@ -24,6 +24,7 @@
         value: "no",
       }
     - { section: "ifupdown", option: "managed", value: "true" }
+    - { section: "main", option: "plugins", value: "ifupdown,keyfile" }
 
 - name: Linux Patching | Network | Copy the certificate
   copy:

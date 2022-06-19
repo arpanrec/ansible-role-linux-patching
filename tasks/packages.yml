@@ -23,6 +23,10 @@
   ansible.builtin.reboot:
   when: rv_linux_patching_upgrade_result.changed
 
+- name: Linux Patching | Install Packages | Gather Facts
+  ansible.builtin.setup:
+  when: rv_linux_patching_upgrade_result.changed
+
 - name: Linux Patching | Install Packages | Install specific essential packages in Debian
   apt:
     name: "{{  rv_linux_patching_packages  }}"
@@ -35,6 +39,10 @@
 
 - name: Linux Patching | Install Packages | Reboot
   ansible.builtin.reboot:
+  when: rv_linux_patching_extra_install.changed
+
+- name: Linux Patching | Install Packages | Gather Facts
+  ansible.builtin.setup:
   when: rv_linux_patching_extra_install.changed
 
 - name: Linux Patching | Install Packages | Install headers linux-headers-{{ansible_kernel}}
@@ -56,4 +64,8 @@
 
 - name: Linux Patching | Install Packages | Reboot
   ansible.builtin.reboot:
+  when: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed.changed or rv_linux_patching_install_headers_tmp_kernel_version_installed.changed
+
+- name: Linux Patching | Install Packages | Gather Facts
+  ansible.builtin.setup:
   when: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed.changed or rv_linux_patching_install_headers_tmp_kernel_version_installed.changed
