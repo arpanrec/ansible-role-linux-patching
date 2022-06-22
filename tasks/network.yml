@@ -25,6 +25,7 @@
       }
     - { section: "ifupdown", option: "managed", value: "true" }
     - { section: "main", option: "plugins", value: "ifupdown,keyfile" }
+    - { section: "connection", option: "wifi.powersave", value: 2 }
 
 - name: Linux Patching | Network | Copy the certificate
   copy:
