@@ -63,6 +63,12 @@ Set timezone, locale, and loopback ip in server
     rv_linux_patching_hostname_fqdn: s1-dev
 ```
 
+## Test
+
+```yaml
+git clone git@github.com:arpanrec/ansible-role-linux-patching.git arpanrec.linux_patching
+```
+
 ## License
 
 MIT
