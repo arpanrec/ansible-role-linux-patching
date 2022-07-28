@@ -37,3 +37,5 @@ rv_linux_patching_packages:
   ]
 
 rv_linux_patching_timezone: Asia/Kolkata
+
+rv_linux_patching_reboot_needed: true

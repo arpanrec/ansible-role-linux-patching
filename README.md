@@ -11,6 +11,11 @@ Set timezone, locale, and loopback ip in server
   required: no
   default: true
   type: bool
+- name: rv_linux_patching_reboot_needed
+  description: If set to `false` system will not reboot after upgrade.
+  required: no
+  default: true
+  type: bool
 - name: rv_linux_patching_packages
   description: Install the packages in all the distributions.
   required: no

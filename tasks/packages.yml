@@ -15,13 +15,12 @@
     name: "*"
     state: latest
     update_cache: true
-  when:
-    - rv_linux_patching_upgrade_existing_packages
+  when: rv_linux_patching_upgrade_existing_packages
   register: rv_linux_patching_upgrade_result
 
 - name: Linux Patching | Install Packages | Reboot
   ansible.builtin.reboot:
-  when: rv_linux_patching_upgrade_result.changed
+  when: rv_linux_patching_upgrade_result.changed and rv_linux_patching_reboot_needed
 
 - name: Linux Patching | Install Packages | Gather Facts
   ansible.builtin.setup:
@@ -39,7 +38,7 @@
 
 - name: Linux Patching | Install Packages | Reboot
   ansible.builtin.reboot:
-  when: rv_linux_patching_extra_install.changed
+  when: rv_linux_patching_extra_install.changed and rv_linux_patching_reboot_needed
 
 - name: Linux Patching | Install Packages | Gather Facts
   ansible.builtin.setup:
@@ -59,12 +58,12 @@
     name: "linux-headers"
     state: present
     update_cache: true
-  when: rv_linux_patching_install_headers_tmp_kernel_version_installed.failed
+  when: rv_linux_patching_install_headers and rv_linux_patching_install_headers_tmp_kernel_version_installed.failed
   register: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed
 
 - name: Linux Patching | Install Packages | Reboot
   ansible.builtin.reboot:
-  when: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed.changed or rv_linux_patching_install_headers_tmp_kernel_version_installed.changed
+  when: rv_linux_patching_reboot_needed and (rv_linux_patching_install_generic_headers_tmp_kernel_version_installed.changed or rv_linux_patching_install_headers_tmp_kernel_version_installed.changed)
 
 - name: Linux Patching | Install Packages | Gather Facts
   ansible.builtin.setup:

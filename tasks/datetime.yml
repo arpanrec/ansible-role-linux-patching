@@ -8,6 +8,15 @@
   timezone:
     name: "{{  rv_linux_patching_timezone  }}"
     hwclock: local
+  ignore_errors: true
+  register: rv_linux_patching_hw_settime_result
+
+- name: Linux Patching | Setup Host Date Time | Set timezone as {{  rv_linux_patching_timezone  }} via softlink
+  ansible.builtin.file:
+    src: "/usr/share/zoneinfo/{{ rv_linux_patching_timezone }}"
+    dest: /etc/localtime
+    state: link
+  when: rv_linux_patching_hw_settime_result.failed
 
 - name: Linux Patching | Setup Host Date Time | Ensure a locale exists as en_US.UTF-8
   locale_gen:

@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: debian
+    image: debian
+    pre_build_image: false
+    dockerfile: Dockerfile.j2
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+  inventory:
+    group_vars:
+      all:
+        rv_linux_patching_reboot_needed: false
+        rv_linux_patching_install_headers: false
+scenario:
+  converge_sequence:
+    - converge
+  test_sequence:
+    - create
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
